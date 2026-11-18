@@ -1,0 +1,19 @@
+{
+    "name": "nova/nova-wear",
+    "description": "NOVA Wear - website bán quần áo xây dựng bằng CodeIgniter 4",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "codeigniter4/framework": "^4.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": ["@php bin/setup.php"],
+        "post-update-cmd": ["@php bin/setup.php"]
+    }
+}

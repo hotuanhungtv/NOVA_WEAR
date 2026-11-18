@@ -1,0 +1,74 @@
+name: nova-wear
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: nova-web
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    environment:
+      TZ: Asia/Ho_Chi_Minh
+      # ---- Cấu hình CodeIgniter 4 (đọc từ biến môi trường) ----
+      CI_ENVIRONMENT: development          # đổi thành production khi đưa lên server thật
+      app_baseURL: "http://localhost:8088/"
+      app_indexPage: ""
+      app_appTimezone: "Asia/Ho_Chi_Minh"
+      database_default_hostname: db
+      database_default_database: ${MYSQL_DATABASE:-ql_banhang}
+      database_default_username: ${MYSQL_USER:-appuser}
+      database_default_password: ${MYSQL_PASSWORD:-apppassword}
+      database_default_DBDriver: MySQLi
+      database_default_charset: utf8mb4
+      database_default_DBCollat: utf8mb4_unicode_ci
+      session_expiration: "1800"           # tự đăng xuất sau 30 phút không hoạt động
+      security_regenerate: "false"
+      # Chỉ cho khách ĐÃ MUA sản phẩm mới được đánh giá? (true/false)
+      nova_reviewRequirePurchase: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    container_name: nova-db
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3308:3306"
+    environment:
+      TZ: Asia/Ho_Chi_Minh
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ql_banhang}
+      MYSQL_USER: ${MYSQL_USER:-appuser}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-apppassword}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: nova-pma
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:

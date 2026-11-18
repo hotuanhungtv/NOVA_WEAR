@@ -1,0 +1,32 @@
+/* NOVA Wear – khu vực quản trị */
+:root{--ink:#111;--bg:#f3f3f1;--line:#e3e3df;--muted:#6b6b66;--side:232px}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:.92rem}
+.adm{display:grid;grid-template-columns:var(--side) 1fr;min-height:100vh}
+.adm-side{background:var(--ink);color:#d8d8d3;padding:1.2rem .8rem;position:sticky;top:0;height:100vh;overflow:auto}
+.adm-side .brand{display:block;padding:.2rem .6rem 1.2rem}
+.adm-side .brand img{height:38px}
+.adm-side a.nav-l{display:flex;align-items:center;gap:.65rem;padding:.6rem .75rem;border-radius:4px;color:#d8d8d3;font-weight:500;margin-bottom:2px}
+.adm-side a.nav-l:hover{background:#262626;color:#fff}
+.adm-side a.nav-l.active{background:#fff;color:var(--ink);font-weight:700}
+.adm-side .sec{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:#7d7d77;margin:1.1rem .75rem .4rem}
+.adm-main{min-width:0}
+.adm-top{background:#fff;border-bottom:1px solid var(--line);padding:.7rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.adm-top h1{font-size:1.15rem;margin:0;font-weight:700}
+.adm-body{padding:1.5rem}
+.card-box{background:#fff;border:1px solid var(--line);border-radius:6px;padding:1.2rem}
+.stat{display:flex;flex-direction:column;gap:.2rem}
+.stat .n{font-size:1.6rem;font-weight:700;line-height:1.1}
+.stat .l{color:var(--muted);font-size:.8rem}
+.table>:not(caption)>*>*{padding:.7rem .75rem;vertical-align:middle}
+.table thead th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:#fafaf8;white-space:nowrap}
+.thumb{width:44px;height:56px;object-fit:cover;border-radius:3px;background:var(--bg)}
+.btn-dark{background:var(--ink);border-color:var(--ink)}
+.dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.3);display:inline-block;vertical-align:-2px}
+.stars{color:#f5a623;white-space:nowrap}
+.var-table input.form-control,.var-table select.form-select{min-width:70px}
+.var-table input[type=color]{width:42px;padding:2px;height:34px}
+.img-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.7rem}
+.img-pick label{border:1px solid var(--line);border-radius:4px;padding:.4rem;display:block;font-size:.75rem;cursor:pointer;background:#fff}
+.img-pick img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:3px;margin-bottom:.35rem}
+.login-box{max-width:400px;margin:8vh auto}
+@media (max-width:991.98px){.adm{grid-template-columns:1fr}.adm-side{position:static;height:auto;display:flex;flex-wrap:wrap;gap:.3rem;padding:.6rem}.adm-side .sec{display:none}.adm-side .brand{padding:0 .6rem}}
